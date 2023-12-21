@@ -4,7 +4,7 @@ from src.config import base_url, cookie, token
 
 
 # SPROCUR-2944
-def test_get_post_supply_project():
+def test_post_supply_project():
     url = base_url + "/api/supply-projects/"
     headers = {"accept": "application/json",
                "Cookie": cookie,

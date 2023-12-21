@@ -4,7 +4,7 @@ import src.config
 from src.config import base_url, cookie, token, project_pk
 
 
-# SPROCUR-2944
+# SPROCUR-2948
 @pytest.mark.parametrize("project_pk", [project_pk])
 def test_patch_supply_project(project_pk):
     url = base_url + "/api/supply-projects/" + str(src.config.project_pk) + "/"

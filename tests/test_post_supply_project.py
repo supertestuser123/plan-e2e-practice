@@ -13,6 +13,8 @@ def test_get_post_supply_project():
                "Referer": "https://splan-stage.samoletgroup.ru/admin/supplies/supplyproject/add/"}
 
     response = requests.post(url, headers=headers, json=src.config.payload)
+    assert response.status_code == 201, f"Unexpected status code: {response.status_code}"
+    assert response.headers['Content-Type'] == 'application/json; charset=utf-8', "Response is not in JSON format"
     json_data = response.json()
 
     if json_data:

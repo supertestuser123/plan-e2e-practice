@@ -6,10 +6,18 @@ project_id = 64
 pk = 130
 structure_id = 21296
 group_id = 52
+project_pk = 153
 
 payload = {
   "executor": "test",
   "address": "test",
   "comment": "test",
+  "project_id": 1988
+}
+
+updated_payload = {
+  "executor": "testtest",
+  "address": "testtest",
+  "comment": "testtest",
   "project_id": 1988
 }

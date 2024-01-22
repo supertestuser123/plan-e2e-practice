@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "gherkin": "^9.0.0",
+    "gherking": "^2.4.0"
+  }
+}

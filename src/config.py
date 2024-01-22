@@ -1,7 +1,7 @@
-base_url = 'https://splan-stage.samoletgroup.ru'
-cookie = 'sessionid=0emhzagm9izzmfk2k0e9z9or1gg9df0s;' \
-         'csrftoken=tgh6KSqEOwekiKOXeaOSl07BVCXe9f3JSbPM7C2IwsMu5s4QQnxUBciO3LuPHkso'
-token = 'BZSbY98UfbBvc9kOSSBxQx7fRFPtxM3H0UqRlTKYX79FZRAHu5kz6JisZOm45Rsm'
+base_url = 'https://splan-stage.samoletgroup.ru/'
+cookie = 'sessionid=kj340neiriyyik63z83cuv30ves8zmok;' \
+         'csrftoken=2tcSXyCkRAiG4IIhLdUEHc8H3tqEOECKKNsMp7ClQR4IkFz6d9RmyupNnp2gvAqN'
+token = 'HTg2H7gU8CSoF8kYl52GIVzZWQFicNXF3mbKJ1txRKub5kRyC6aGv3TJZsmBT8oW'
 project_id = 64
 pk = 130
 structure_id = 21296

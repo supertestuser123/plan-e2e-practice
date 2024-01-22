@@ -9,15 +9,15 @@ group_id = 52
 project_pk = 154
 
 payload = {
-  "executor": "test",
-  "address": "test",
-  "comment": "test",
-  "project_id": 1988
+    "executor": "test",
+    "address": "test",
+    "comment": "test",
+    "project_id": 1988
 }
 
 updated_payload = {
-  "executor": "testtest",
-  "address": "testtest",
-  "comment": "testtest",
-  "project_id": 1988
+    "executor": "testtest",
+    "address": "testtest",
+    "comment": "testtest",
+    "project_id": 1988
 }

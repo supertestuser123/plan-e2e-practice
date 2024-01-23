@@ -24,7 +24,7 @@ def test_get_list_all_file_config():
 
     json_data = response.json()
 
-    # Проверки на наличие полей в ответе
+    # Проверки на наличие ключей в ответе
     try:
         assert 'results' in json_data, "Missing 'results' field in response"
         assert 'count' in json_data, "Missing 'count' field in response"
@@ -45,13 +45,13 @@ def test_get_list_all_file_config():
     except (AssertionError, TypeError):
         raise
 
-    # Проверки на то что переданный алгоритм соответствует алгоритму в ответе
+    # Проверки на то что переданный алгоритм соответствует алгоритму в запросе
     try:
         assert first_project['algorithm_type'] == REDISTRIBUTION_ALGORITHM
     except (AssertionError, TypeError):
         raise
 
-    # Проверки на типы ответов
+    # Проверки на типы ключей
     try:
         assert isinstance(first_project['id'], int)
         assert isinstance(first_project['name'], str)
@@ -62,7 +62,7 @@ def test_get_list_all_file_config():
     except (AssertionError, TypeError):
         raise
 
-    # Проверка на количество элементов
+    # Проверка на количество ключей в ответе
     try:
         assert len(first_project) == expected_keys_count, "Изменение в количестве ключей в ответе"
     except (AssertionError, TypeError):

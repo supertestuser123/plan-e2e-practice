@@ -20,7 +20,7 @@ def test_get_list_all_file_config():
         raise
 
     json_data = response.json()
-    # проверяем блок наличия полей в ответе
+    # проверяем блок наличия ключей в ответе
     try:
         if json_data:
             assert 'id' in json_data, "Missing 'id' field in the first project"
@@ -34,7 +34,7 @@ def test_get_list_all_file_config():
             assert 'created' in json_data, "Missing 'created' field in the first project"
     except (AssertionError, TypeError):
         raise
-    # Проверки на типы полей
+    # Проверки на типы ключей
     try:
         assert isinstance(json_data["id"], int), "'id' should be int type"
         assert isinstance(json_data["guid"], str), "'guid' should be string type"

@@ -53,12 +53,12 @@ def test_get_list_all_file_config():
 
     # Проверки на типы ключей
     try:
-        assert isinstance(first_project['id'], int)
-        assert isinstance(first_project['name'], str)
-        assert isinstance(first_project["title"], str)
-        assert isinstance(first_project["file_kind"], str)
-        assert isinstance(first_project["algorithm_type"], str)
-        assert isinstance(first_project["is_file_reload"], bool)
+        assert isinstance(first_project['id'], int), "'id' should be int type"
+        assert isinstance(first_project['name'], str), "'name' should be str type"
+        assert isinstance(first_project["title"], str), "'title' should be str type"
+        assert isinstance(first_project["file_kind"], str), "'file_kind' should be str type"
+        assert isinstance(first_project["algorithm_type"], str), "'algorithm_type' should be str type"
+        assert isinstance(first_project["is_file_reload"], bool), "'is_file_reload' should be bool type"
     except (AssertionError, TypeError):
         raise
 

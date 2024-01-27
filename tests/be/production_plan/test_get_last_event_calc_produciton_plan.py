@@ -1,4 +1,6 @@
 import requests
+
+from helper.data_type_checker import check_data_type
 from src.config import base_url, cookie, token
 
 expected_keys_count = 9
@@ -42,18 +44,10 @@ def test_get_last_event_calc_production_plan():
         assert isinstance(json_data["user_id"], int), "'user_id' should be int type"
         assert isinstance(json_data["calculation_type"], str), "'calculation_type' should be str type"
         try:
-            if json_data["error_description"] is None:
-                assert True
-            else:
-                assert isinstance(json_data["error_description"], dict), "'error_description' should be dict type"
-        except (AssertionError, TypeError):
-            raise
-        try:
-            if json_data["results"] is None:
-                assert True
-            else:
-                assert isinstance(json_data["results"], list), "'results' should be list type"
-        except (AssertionError, TypeError):
+            check_data_type(json_data, "error_description", dict)
+            check_data_type(json_data, "results", list)
+        except AssertionError as e:
+            print(e)
             raise
         assert isinstance(json_data["updated"], str), "'updated' should be string type"
         assert isinstance(json_data["created"], str), "'created' should be string type"

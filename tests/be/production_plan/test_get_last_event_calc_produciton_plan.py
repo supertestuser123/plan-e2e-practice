@@ -4,8 +4,8 @@ from src.config import base_url, cookie, token
 expected_keys_count = 9
 
 
-def test_get_list_all_file_config():
-    url = f"{base_url}api/calculation-production-plan/last-successful-event-calc-production-plan/"
+def test_get_last_event_calc_production_plan():
+    url = f"{base_url}api/calculation-production-plan/last-event-calc-production-plan/"
     headers = {"Cookie": cookie,
                "accept": 'application/json',
                'X-CSRFToken': token
@@ -23,15 +23,15 @@ def test_get_list_all_file_config():
     # проверяем блок наличия ключей в ответе
     try:
         if json_data:
-            assert 'id' in json_data, "Missing 'id' field in the first project"
-            assert 'guid' in json_data, "Missing 'guid' field in the first project"
-            assert 'status' in json_data, "Missing 'status' field in the first project"
-            assert 'user_id' in json_data, "Missing 'user_id' field in the first project"
-            assert 'calculation_type' in json_data, "Missing 'calculation_type' field in the first project"
-            assert 'error_description' in json_data, "Missing 'error_description' field in the first project"
-            assert 'results' in json_data, "Missing 'results' field in the first project"
-            assert 'updated' in json_data, "Missing 'updated' field in the first project"
-            assert 'created' in json_data, "Missing 'created' field in the first project"
+            assert 'id' in json_data, "Missing 'id' field"
+            assert 'guid' in json_data, "Missing 'guid' field"
+            assert 'status' in json_data, "Missing 'status' field"
+            assert 'user_id' in json_data, "Missing 'user_id' field"
+            assert 'calculation_type' in json_data, "Missing 'calculation_type' field"
+            assert 'error_description' in json_data, "Missing 'error_description' field"
+            assert 'results' in json_data, "Missing 'results' field"
+            assert 'updated' in json_data, "Missing 'updated' field"
+            assert 'created' in json_data, "Missing 'created' field"
     except (AssertionError, TypeError):
         raise
     # Проверки на типы ключей
@@ -40,8 +40,21 @@ def test_get_list_all_file_config():
         assert isinstance(json_data["guid"], str), "'guid' should be string type"
         assert isinstance(json_data["status"], str), "'status' should be string type"
         assert isinstance(json_data["user_id"], int), "'user_id' should be int type"
-        assert isinstance(json_data["calculation_type"], str), "'calculation_type' should be string type"
-        assert isinstance(json_data["results"], list), "'results' should be list type"
+        assert isinstance(json_data["calculation_type"], str), "'calculation_type' should be str type"
+        try:
+            if json_data["error_description"] is None:
+                assert True
+            else:
+                assert isinstance(json_data["error_description"], dict), "'error_description' should be dict type"
+        except (AssertionError, TypeError):
+            raise
+        try:
+            if json_data["results"] is None:
+                assert True
+            else:
+                assert isinstance(json_data["results"], list), "'results' should be list type"
+        except (AssertionError, TypeError):
+            raise
         assert isinstance(json_data["updated"], str), "'updated' should be string type"
         assert isinstance(json_data["created"], str), "'created' should be string type"
     except (AssertionError, TypeError):

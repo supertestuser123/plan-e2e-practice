@@ -21,3 +21,8 @@ updated_payload = {
     "comment": "testtest",
     "project_id": 1988
 }
+
+NUMBER_OF_FILES_IN_CONFIG = 7
+REDISTRIBUTION_ALGORITHM = 'redistribution'
+PLANNING_ALGORITHM = 'planning'
+SUB_MODE = 'mixed'

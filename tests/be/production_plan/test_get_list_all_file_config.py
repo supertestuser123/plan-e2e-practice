@@ -1,10 +1,5 @@
 import requests
-from src.config import base_url, cookie, token
-
-
-REDISTRIBUTION_ALGORITHM = 'redistribution'
-PLANNING_ALGORITHM = 'planning'
-expected_keys_count = 6
+from src.config import base_url, cookie, token, REDISTRIBUTION_ALGORITHM
 
 
 def test_get_list_all_file_config():
@@ -26,22 +21,20 @@ def test_get_list_all_file_config():
 
     # Проверки на наличие ключей в ответе
     try:
-        assert 'results' in json_data, "Missing 'results' field in response"
-        assert 'count' in json_data, "Missing 'count' field in response"
-        assert 'per_page' in json_data, "Missing 'per_page' field in response"
-        assert isinstance(json_data['results'], list), "'Results' is not a list in response"
+        required_fields = ['results', 'count', 'per_page']
+        for field in required_fields:
+            assert field in json_data, f"Missing '{field}' field in response"
+        assert isinstance(json_data.get('results'), list), "'Results' is not a list in response"
     except (AssertionError, TypeError):
         raise
 
+    # Проверки на наличие ключей в первом объекте ответа
     try:
         if json_data['results']:
             first_project = json_data['results'][0]
-            assert 'id' in first_project, "Missing 'id' field in the first project"
-            assert 'name' in first_project, "Missing 'name' field in the first project"
-            assert 'title' in first_project, "Missing 'title' field in the first project"
-            assert 'file_kind' in first_project, "Missing 'file_kind' field in the first project"
-            assert 'algorithm_type' in first_project, "Missing 'algorithm_type' field in the first project"
-            assert 'is_file_reload' in first_project, "Missing 'is_file_reload' field in the first project"
+            required_fields = ['id', 'name', 'title', 'file_kind', 'algorithm_type', 'is_file_reload']
+            for field in required_fields:
+                assert field in first_project, f"Missing '{field}' field in the first project"
     except (AssertionError, TypeError):
         raise
 
@@ -53,17 +46,23 @@ def test_get_list_all_file_config():
 
     # Проверки на типы ключей
     try:
-        assert isinstance(first_project['id'], int), "'id' should be int type"
-        assert isinstance(first_project['name'], str), "'name' should be str type"
-        assert isinstance(first_project["title"], str), "'title' should be str type"
-        assert isinstance(first_project["file_kind"], str), "'file_kind' should be str type"
-        assert isinstance(first_project["algorithm_type"], str), "'algorithm_type' should be str type"
-        assert isinstance(first_project["is_file_reload"], bool), "'is_file_reload' should be bool type"
+        type_checks = {
+            'id': int,
+            'name': str,
+            'title': str,
+            'file_kind': str,
+            'algorithm_type': str,
+            'is_file_reload': bool
+        }
+        for field, expected_type in type_checks.items():
+            assert isinstance(first_project.get(field),
+                              expected_type), f"'{field}' should be {expected_type} type"
     except (AssertionError, TypeError):
         raise
 
     # Проверка на количество ключей в ответе
     try:
-        assert len(first_project) == expected_keys_count, "Изменение в количестве ключей в ответе"
+        EXPECTED_KEYS_COUNT = 6
+        assert len(first_project) == EXPECTED_KEYS_COUNT, "Изменение в количестве ключей в ответе"
     except (AssertionError, TypeError):
         raise

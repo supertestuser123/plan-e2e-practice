@@ -1,13 +1,6 @@
 import requests
-
 from helper.data_type_checker import check_data_type
-from src.config import base_url, cookie, token
-
-
-REDISTRIBUTION_ALGORITHM = 'redistribution'
-PLANNING_ALGORITHM = 'planning'
-SUB_MODE = 'mixed'
-expected_keys_count = 12
+from src.config import base_url, cookie, token, NUMBER_OF_FILES_IN_CONFIG, REDISTRIBUTION_ALGORITHM, SUB_MODE
 
 
 def test_post_get_or_create():
@@ -30,21 +23,14 @@ def test_post_get_or_create():
 
     # Проверки на наличие ключей в ответе
     try:
+        required_fields = ['id', 'guid', 'status', 'user_id', 'calculation_type', 'sub_mode', 'file_configs', 'files',
+                           'error_description', 'results', 'updated', 'created']
         if json_data:
-            assert 'id' in json_data, "Missing 'id' field"
-            assert 'guid' in json_data, "Missing 'guid' field"
-            assert 'status' in json_data, "Missing 'status' field"
-            assert 'user_id' in json_data, "Missing 'user_id' field"
-            assert 'calculation_type' in json_data, "Missing 'calculation_type' field"
-            assert 'sub_mode' in json_data, "Missing 'sub_mode' field"
-            assert 'file_configs' in json_data, "Missing 'file_configs' field"
-            assert 'files' in json_data, "Missing 'files' field"
-            assert 'error_description' in json_data, "Missing 'error_description' field"
-            assert 'results' in json_data, "Missing 'results' field"
-            assert 'updated' in json_data, "Missing 'updated' field"
-            assert 'created' in json_data, "Missing 'created' field"
+            for field in required_fields:
+                assert field in json_data, f"Missing '{field}' field"
     except (AssertionError, TypeError):
         raise
+
     # Проверки на то что переданный алгоритм и подтип соответствует алгоритму в запросе
     try:
         assert json_data['calculation_type'] == REDISTRIBUTION_ALGORITHM
@@ -54,13 +40,20 @@ def test_post_get_or_create():
 
     # Проверки на типы ключей
     try:
-        assert isinstance(json_data["id"], int), "'id' should be int type"
-        assert isinstance(json_data["guid"], str), "'guid' should be str type"
-        assert isinstance(json_data["status"], str), "'status' should be str type"
-        assert isinstance(json_data["user_id"], int), "'user_id' should be int type"
-        assert isinstance(json_data["calculation_type"], str), "'calculation_type' should be int type"
-        assert isinstance(json_data["sub_mode"], str), "'sub_mode' should be int type"
-        assert isinstance(json_data["file_configs"], list), "'file_configs' should be list type"
+        type_checks = {
+            'id': int,
+            'guid': str,
+            'status': str,
+            'user_id': int,
+            'calculation_type': str,
+            'sub_mode': str,
+            'file_configs': list,
+            'updated': str,
+            'created': str
+        }
+        for field, expected_type in type_checks.items():
+            assert isinstance(json_data.get(field),
+                              expected_type), f"'{field}' should be {expected_type} type"
         try:
             check_data_type(json_data, "files", list)
             check_data_type(json_data, "error_description", dict)
@@ -68,13 +61,18 @@ def test_post_get_or_create():
         except AssertionError as e:
             print(e)
             raise
-        assert isinstance(json_data["updated"], str), "'updated' should be int type"
-        assert isinstance(json_data["created"], str), "'created' should be int type"
     except (AssertionError, TypeError):
         raise
-    #
-    # # Проверка на количество ключей в ответе
-    # try:
-    #     assert len(first_project) == expected_keys_count, "Изменение в количестве ключей в ответе"
-    # except (AssertionError, TypeError):
-    #     raise
+
+    # Проверка на количество ключей в ответе
+    try:
+        EXPECTED_KEYS_COUNT = 12
+        assert len(json_data) == EXPECTED_KEYS_COUNT, "Изменение в количестве ключей в ответе"
+    except (AssertionError, TypeError):
+        raise
+
+    # Проверка на количество конфигов в file_configs
+    try:
+        assert len(json_data["file_configs"]) == NUMBER_OF_FILES_IN_CONFIG, "Изменение в количестве ключей в ответе"
+    except (AssertionError, TypeError):
+        raise
